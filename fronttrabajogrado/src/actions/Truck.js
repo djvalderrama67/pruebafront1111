@@ -1,26 +1,25 @@
 import axios from '../services/api';
-import { GET_TRUCKS, GET_TRUCK } from './types';
 
-export const getTrucks = () => async dispatch => {
-    try {
-        const res = await axios.get('/api/vehiculo/');
-        dispatch({
-            type: GET_TRUCKS,
-            payload: res.data
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
+export const FETCH_TRUCKS_SUCCESS = 'FETCH_TRUCKS_SUCCESS';
+export const FETCH_TRUCKS_FAILURE = 'FETCH_TRUCKS_FAILURE';
 
-export const getTruck = (id) => async dispatch => {
-    try {
-        const res = await axios.get(`/api/vehiculo/${id}`);
-        dispatch({
-            type: GET_TRUCK,
-            payload: res.data
-        });
-    } catch (err) {
-        console.log(err);
-    }
+export const fetchTrucksSuccess = (trucks) => ({
+    type: FETCH_TRUCKS_SUCCESS,
+    payload: trucks,
+});
+
+export const fetchTrucksFailure = (error) => ({
+    type: FETCH_TRUCKS_FAILURE,
+    payload: error,
+});
+
+export const fetchTrucks = () => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get('/vehiculo/');
+            dispatch(fetchTrucksSuccess(response.data));
+        } catch (error) {
+            dispatch(fetchTrucksFailure(error.message));
+        }
+    };
 }

@@ -7,6 +7,7 @@ import Categories from './categories'
 import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled';
 import CustomButton from './recursivebutton'
 import Objects from './objects'
+import Vehicles from './vehicles'
 
 export const CalculadoraMain = () => {
 
@@ -71,8 +72,7 @@ export const CalculadoraMain = () => {
                             <h4>vehículo recomendado</h4>
                         </div>
                         <div className="container-calculadora-inventario-items">
-                            <img src="" alt="camioneta" />
-                            <p>0.5T - 1T</p>
+                            <Vehicles totalVolumen={totalVolumen} />
                         </div>
                         <div className="container-calculadora-inventario-title">
                             <h4>Capacidad en metros cúbicos de la bodega recomendada</h4>

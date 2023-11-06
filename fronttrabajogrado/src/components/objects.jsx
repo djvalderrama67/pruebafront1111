@@ -26,9 +26,6 @@ const Objects = ({ selectedCategoryNombre, totalArticles, setTotalArticles, tota
     // Mantener contadores por categoría
     const [categoryCounters, setCategoryCounters] = useState({});
 
-    // Mantener el estado del volumen total global
-    const [totalVolume, setTotalVolume] = useState(0);
-
     const handleIncrement = (index) => {
         setCounters(prevCounters => ({
             ...prevCounters,
@@ -45,7 +42,14 @@ const Objects = ({ selectedCategoryNombre, totalArticles, setTotalArticles, tota
 
         setTotalArticles(prevTotal => prevTotal + 1);
 
-        setTotalVolumen(calcularVolumenTotal());
+        setTotalVolumen(prevTotalVolumen => {
+            const object = filteredObjects[index];
+            if (object && object.volumen) {
+                const newTotalVolumen = prevTotalVolumen + object.volumen;
+                return parseFloat(newTotalVolumen.toFixed(2));
+            }
+            return prevTotalVolumen;
+        });
     };
 
     const handleDecrement = (index) => {
@@ -65,43 +69,15 @@ const Objects = ({ selectedCategoryNombre, totalArticles, setTotalArticles, tota
 
             setTotalArticles(prevTotal => prevTotal - 1);
 
-            setTotalVolumen(calcularVolumenTotal());
-        }
-    };
-
-    const calcularVolumenTotal = () => {
-        let volumenTotal = 0;
-
-        Object.keys(counters).forEach((index) => {
-            if (counters[index] > 0) {
+            setTotalVolumen(prevTotalVolumen => {
                 const object = filteredObjects[index];
                 if (object && object.volumen) {
-                    volumenTotal += object.volumen * counters[index];
+                    const newTotalVolumen = prevTotalVolumen - object.volumen;
+                    return parseFloat(newTotalVolumen.toFixed(2));
                 }
-            }
-        });
-
-        return volumenTotal;
-    };
-
-    const calcularVolumenTotalGlobal = () => {
-        let volumenTotalGlobal = 0;
-
-        Object.keys(categoryCounters).forEach((category) => {
-            const counters = categoryCounters[category];
-            const categoryObjects = objects.filter(object => object.categoria.nombre === category);
-
-            Object.keys(counters).forEach((index) => {
-                if (counters[index] > 0) {
-                    const object = categoryObjects[index];
-                    if (object && object.volumen) {
-                        volumenTotalGlobal += object.volumen * counters[index];
-                    }
-                }
+                return prevTotalVolumen;
             });
-        });
-
-        return volumenTotalGlobal;
+        }
     };
 
     useEffect(() => {
@@ -110,14 +86,7 @@ const Objects = ({ selectedCategoryNombre, totalArticles, setTotalArticles, tota
         } else {
             setCounters({});
         }
-
-        const newTotalVolume = calcularVolumenTotalGlobal();
-        setTotalVolume(newTotalVolume);
     }, [selectedCategoryNombre, categoryCounters]);
-
-    useEffect(() => {
-        setTotalVolumen(totalVolume);
-    }, [totalVolume]);
 
     return (
         <div className='container-objects'>
@@ -129,7 +98,6 @@ const Objects = ({ selectedCategoryNombre, totalArticles, setTotalArticles, tota
                     <div className='container-objects-title'>
                         <h2>{object.nombre}</h2>
                         <p>({object.largo} X {object.ancho} X {object.alto})</p>
-                        <p>{object.volumen} m3 Total volumen</p>
                     </div>
                     <div className='container-objects-buttons'>
                         <button onClick={() => handleDecrement(index)}>
