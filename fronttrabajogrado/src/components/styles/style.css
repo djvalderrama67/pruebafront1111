@@ -429,3 +429,62 @@ h3{
     align-items: center;
     justify-content: center;
 }
+
+.container-vehiculos-info-items{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.container-object-special-form{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container-object-special-form-info{
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container-object-special-title h2{
+    font-weight: bold;
+    margin: 10px auto;
+    text-align: center;
+}
+
+.container-object-special-info{
+    background: var(--color-primario);
+    color: var(--color-secundario);
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.container-object-special-info p{
+    font-weight: lighter;
+    text-align: center;
+    white-space: normal;
+    word-wrap: break-word;
+    font-weight: lighter;
+    overflow: hidden;
+}
+
+.container-object-special-form-inputs{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.container-object-special-form-inputs-name h4{
+    font-weight: bold;
+    margin: 15px auto;
+    text-align: center;
+}
+
+

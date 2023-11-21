@@ -8,6 +8,7 @@ import ReplayCircleFilledIcon from '@mui/icons-material/ReplayCircleFilled';
 import CustomButton from './recursivebutton'
 import Objects from './objects'
 import Vehicles from './vehicles'
+import Warehouse from './warehouse'
 
 export const CalculadoraMain = () => {
 
@@ -16,6 +17,7 @@ export const CalculadoraMain = () => {
     const [selectedCategoryNombre, setSelectedCategoryNombre] = React.useState(null);
     const [totalArticles, setTotalArticles] = useState(0);
     const [totalVolumen, setTotalVolumen] = useState(0);
+    const [resetIndicator, setResetIndicator] = useState(false);
 
     useEffect(() => {
         dispatch(fetchCategories());
@@ -23,6 +25,15 @@ export const CalculadoraMain = () => {
 
     const handleCategoryClick = (nombre) => {
         setSelectedCategoryNombre(nombre);
+    };
+
+    const resetTotals = () => {
+        setTotalArticles(0);
+        setTotalVolumen(0);
+        setResetIndicator(prev => !prev);
+        setTimeout(() => {
+            setResetIndicator(prev => !prev);
+        }, 100);
     };
 
     return (
@@ -51,7 +62,7 @@ export const CalculadoraMain = () => {
                         <div className="container-calculadora-categorias-items">
                             {selectedCategoryNombre && (
                                 <Objects selectedCategoryNombre={selectedCategoryNombre} totalArticles={totalArticles}
-                                setTotalArticles={setTotalArticles} totalVolumen={totalVolumen} setTotalVolumen={setTotalVolumen} />
+                                setTotalArticles={setTotalArticles} totalVolumen={totalVolumen} setTotalVolumen={setTotalVolumen} resetIndicator={resetIndicator} />
                             )}
                         </div>
                     </div>
@@ -75,17 +86,16 @@ export const CalculadoraMain = () => {
                             <Vehicles totalVolumen={totalVolumen} />
                         </div>
                         <div className="container-calculadora-inventario-title">
-                            <h4>Capacidad en metros cúbicos de la bodega recomendada</h4>
+                            <h4>Capacidad en m&sup3; y m&sup2; de la bodega recomendada</h4>
                         </div>
                         <div className="container-calculadora-inventario-items">
-                            <img src="" alt="camioneta" />
-                            <p>1.5 m3</p>
+                            <Warehouse totalVolumen={totalVolumen} />
                         </div>
                         <div className="container-calculadora-inventario-buttons">
-                            <div className="repeat-button">
+                            <div className="repeat-button" onClick={resetTotals}>
                                 <ReplayCircleFilledIcon style={{ fontSize: 100 }} />
                             </div>
-                            <div className="recursive-button">
+                            <div className="recursive-button" >
                                 <CustomButton content="Descargar inventario" link="" />
                             </div>
                         </div>

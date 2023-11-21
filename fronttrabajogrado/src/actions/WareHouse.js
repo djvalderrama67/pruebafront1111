@@ -1,26 +1,25 @@
 import axios from '../services/api';
-import { GET_WAREHOUSES, GET_WAREHOUSE } from './types';
 
-export const getWarehouses = () => async dispatch => {
-    try {
-        const res = await axios.get('/api/bodega/');
-        dispatch({
-            type: GET_WAREHOUSES,
-            payload: res.data
-        });
-    } catch (err) {
-        console.log(err);
-    }
-}
+export const FETCH_WAREHOUSES_SUCCESS = 'FETCH_WAREHOUSES_SUCCESS';
+export const FETCH_WAREHOUSES_FAILURE = 'FETCH_WAREHOUSES_FAILURE';
 
-export const getWarehouse = (id) => async dispatch => {
-    try {
-        const res = await axios.get(`/api/bodega/${id}`);
-        dispatch({
-            type: GET_WAREHOUSE,
-            payload: res.data
-        });
-    } catch (err) {
-        console.log(err);
-    }
+export const fetchWarehousesSuccess = (warehouses) => ({
+    type: FETCH_WAREHOUSES_SUCCESS,
+    payload: warehouses,
+});
+
+export const fetchWarehousesFailure = (error) => ({
+    type: FETCH_WAREHOUSES_FAILURE,
+    payload: error,
+});
+
+export const fetchWarehouses = () => {
+    return async (dispatch) => {
+        try {
+            const response = await axios.get('/bodega/');
+            dispatch(fetchWarehousesSuccess(response.data));
+        } catch (error) {
+            dispatch(fetchWarehousesFailure(error.message));
+        }
+    };
 }
