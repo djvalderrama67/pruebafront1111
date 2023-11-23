@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000';
+const API_URL = 'https://trasteat-bfdad022aa39.herokuapp.com';
 
 export default axios.create({
     baseURL: API_URL,
